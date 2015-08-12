@@ -61,3 +61,5 @@ target/
 # virtualenv
 banbrick-venv/
 .dev/activate
+banbrick/db.sqlite3
+migrations/
