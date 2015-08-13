@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
-from django.contrib import admin
+import xadmin
+
+xadmin.autodiscover()
 
 urlpatterns = patterns(
     '',
@@ -7,5 +9,5 @@ urlpatterns = patterns(
     # url(r'^$', 'banbrick.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^panel/', include('xpanel.urls')),
+    url(r'^', include(xadmin.site.urls), name='xpanel'),
 )
