@@ -1,4 +1,5 @@
 from core import models
+from django.utils.translation import ugettext_lazy as _
 
 import xadmin
 from xadmin import views
@@ -23,7 +24,29 @@ xadmin.site.register(views.CommAdminView, CommAdminViewSetting)
 class SimpleModelAdmin(object):
     pass
 
-xadmin.site.register(models.ProjectTag, SimpleModelAdmin)
-xadmin.site.register(models.Project, SimpleModelAdmin)
-xadmin.site.register(models.MonitorItemTag, SimpleModelAdmin)
-xadmin.site.register(models.MonitorItem, SimpleModelAdmin)
+
+class SimpleTagAdmin(object):
+    list_display = (
+        'id', 'name', 'created_on', 'updated_on',
+    )
+
+xadmin.site.register(models.ProjectTag, SimpleTagAdmin)
+xadmin.site.register(models.MonitorItemTag, SimpleTagAdmin)
+
+
+class ProjectAdmin(object):
+    list_display = (
+        'id', 'name', 'status', 'created_on', 'updated_on',
+        'description', 'group', 'tag_set',
+    )
+
+xadmin.site.register(models.Project, ProjectAdmin)
+
+
+class ProjectAdmin(object):
+    list_display = (
+        'id', 'name', 'status', 'created_on', 'updated_on', 'key',
+        'value', 'type', 'project', 'tag_set',
+    )
+
+xadmin.site.register(models.MonitorItem, ProjectAdmin)

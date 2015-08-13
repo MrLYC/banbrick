@@ -2,6 +2,7 @@ from collections import namedtuple
 
 from django.db import models
 from django.contrib.auth.models import Group
+from django.utils.translation import ugettext_lazy as _
 
 from core.models.base import BaseModel, BaseTag
 
@@ -14,22 +15,34 @@ PROJECT_STATUS = (
 
 
 class ProjectTag(BaseTag):
-    pass
+    class Meta:
+        verbose_name = _('Project tag')
+        verbose_name_plural = _('Project tags')
 
 
 class Project(BaseModel):
     name = models.CharField(
         max_length=64, null=False, blank=False,
         default=None, unique=True, db_index=True,
+        verbose_name=_("Name"),
     )
     description = models.CharField(
         max_length=140, null=False, blank=False,
         default=None, unique=True, db_index=True,
+        verbose_name=_("Description"),
     )
     group = models.ForeignKey(
-        Group, null=False,
+        Group, null=False, verbose_name=_("Group"),
     )
-    status = models.BigIntegerField(choices=tuple(
-        (i, t.name) for i, t in enumerate(PROJECT_STATUS)
-    ))
-    tag_set = models.ManyToManyField(ProjectTag, blank=True)
+    status = models.BigIntegerField(
+        choices=tuple(
+            (i, t.name) for i, t in enumerate(PROJECT_STATUS)
+        ), verbose_name=_("Status"),
+    )
+    tag_set = models.ManyToManyField(
+        ProjectTag, blank=True, verbose_name=_("Tags"),
+    )
+
+    class Meta:
+        verbose_name = _('Project')
+        verbose_name_plural = _('Projects')

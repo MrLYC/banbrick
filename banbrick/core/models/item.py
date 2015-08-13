@@ -3,6 +3,7 @@ import logging
 import decimal
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from ycyc.base.contextutils import catch
 
@@ -29,30 +30,45 @@ ITEM_STATUS = (
 
 
 class MonitorItemTag(BaseTag):
-    pass
+    class Meta:
+        verbose_name = _('Monitor item tag')
+        verbose_name_plural = _('Monitor item tags')
 
 
 class MonitorItem(BaseModel):
-    project = models.ForeignKey(Project, null=False)
+    project = models.ForeignKey(
+        Project, null=False, verbose_name=_("Project"),
+    )
     name = models.CharField(
         max_length=64, null=False, blank=False,
-        default=None, db_index=True,
+        default=None, db_index=True, verbose_name=_("Name"),
     )
-    type = models.BigIntegerField(choices=tuple(
-        (i, t.name) for i, t in enumerate(ITEM_TYPE)
-    ))
-    status = models.BigIntegerField(choices=tuple(
-        (i, t.name) for i, t in enumerate(ITEM_STATUS)
-    ))
+    type = models.BigIntegerField(
+        choices=tuple(
+            (i, t.name) for i, t in enumerate(ITEM_TYPE)
+        ), verbose_name=_("Type"),
+    )
+    status = models.BigIntegerField(
+        choices=tuple(
+            (i, t.name) for i, t in enumerate(ITEM_STATUS)
+        ), verbose_name=_("Status"),
+    )
     key = models.CharField(
         max_length=64, null=False, blank=False,
         default=None, unique=True, db_index=True,
+        verbose_name=_("Key"),
     )
     value = models.CharField(
         max_length=128, default=None, null=True,
+        verbose_name=_("Value"),
     )
-    enable = models.BooleanField(default=True)
-    tag_set = models.ManyToManyField(MonitorItemTag, blank=True)
+    tag_set = models.ManyToManyField(
+        MonitorItemTag, blank=True, verbose_name=_("Tags"),
+    )
+
+    class Meta:
+        verbose_name = _('Monitor item')
+        verbose_name_plural = _('Monitor items')
 
     def fix_value(self):
         type = ITEM_TYPE[self.type]
