@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'xadmin',
     'crispy_forms',
 
@@ -52,6 +51,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+
 )
 
 ROOT_URLCONF = 'banbrick.urls'
@@ -77,7 +78,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'zh-cn'
+LANGUAGE_CODE = 'zh-CN'
 
 TIME_ZONE = 'Asia/Shanghai'
 
@@ -130,3 +131,8 @@ LOGGING = {
         },
     },
 }
+
+#
+LOCALE_PATHS = (
+    'locale',
+)

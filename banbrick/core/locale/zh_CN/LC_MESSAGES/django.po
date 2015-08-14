@@ -1,0 +1,86 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-15 00:15+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: zh-cn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: core/models/base.py:8
+msgid "Created on"
+msgstr "创建于"
+
+#: core/models/base.py:13
+msgid "Updated on"
+msgstr "更新于"
+
+#: core/models/base.py:33 core/models/item.py:44 core/models/project.py:27
+msgid "Name"
+msgstr "名称"
+
+#: core/models/item.py:34
+msgid "Monitor item tag"
+msgstr "监控项标签"
+
+#: core/models/item.py:35
+msgid "Monitor item tags"
+msgstr "监控项标签"
+
+#: core/models/item.py:40 core/models/project.py:46
+msgid "Project"
+msgstr "项目"
+
+#: core/models/item.py:49
+msgid "Type"
+msgstr "类型"
+
+#: core/models/item.py:54 core/models/project.py:39
+msgid "Status"
+msgstr "状态"
+
+#: core/models/item.py:58
+msgid "Value"
+msgstr "值"
+
+#: core/models/item.py:61 core/models/project.py:42
+msgid "Tags"
+msgstr "标签"
+
+#: core/models/item.py:65
+msgid "Monitor item"
+msgstr "监控项"
+
+#: core/models/item.py:66
+msgid "Monitor items"
+msgstr "监控项"
+
+#: core/models/project.py:19
+msgid "Project tag"
+msgstr "项目标签"
+
+#: core/models/project.py:20
+msgid "Project tags"
+msgstr "项目标签"
+
+#: core/models/project.py:31
+msgid "Description"
+msgstr "描述"
+
+#: core/models/project.py:34
+msgid "Group"
+msgstr "组"
+
+#: core/models/project.py:47
+msgid "Projects"
+msgstr "项目"
