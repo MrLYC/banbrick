@@ -1,5 +1,6 @@
 from collections import namedtuple
 import logging
+import decimal
 
 from django.db import models
 
@@ -18,6 +19,7 @@ ITEM_TYPE = (
     ItemType("float", float),
     ItemType("text", unicode),
     ItemType("boolean", bool),
+    ItemType("decimal", decimal.Decimal),
 )
 ITEM_STATUS = (
     ItemStatus("enable"),
