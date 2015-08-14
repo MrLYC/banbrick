@@ -46,20 +46,15 @@ class MonitorItem(BaseModel):
     type = models.BigIntegerField(
         choices=tuple(
             (i, t.name) for i, t in enumerate(ITEM_TYPE)
-        ), verbose_name=_("Type"),
+        ), default=0, verbose_name=_("Type"),
     )
     status = models.BigIntegerField(
         choices=tuple(
             (i, t.name) for i, t in enumerate(ITEM_STATUS)
-        ), verbose_name=_("Status"),
-    )
-    key = models.CharField(
-        max_length=64, null=False, blank=False,
-        default=None, unique=True, db_index=True,
-        verbose_name=_("Key"),
+        ), default=0, verbose_name=_("Status"),
     )
     value = models.CharField(
-        max_length=128, default=None, null=True,
+        max_length=128, default=None, null=True, blank=True,
         verbose_name=_("Value"),
     )
     tag_set = models.ManyToManyField(
@@ -69,6 +64,10 @@ class MonitorItem(BaseModel):
     class Meta:
         verbose_name = _('Monitor item')
         verbose_name_plural = _('Monitor items')
+        unique_together = ('project', 'name',)
+
+    def __str__(self):
+        return self.name
 
     def fix_value(self):
         type = ITEM_TYPE[self.type]
