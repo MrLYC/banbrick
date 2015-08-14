@@ -1,5 +1,6 @@
 import xadmin
 from xadmin import views
+from django.utils.translation import ugettext_lazy as _
 
 from core import models
 
@@ -21,6 +22,10 @@ xadmin.site.register(views.BaseAdminView, BaseAdminViewSetting)
 class CommAdminViewSetting(object):
     site_title = u"BanBrick"
     site_footer = u"BanBrick @lyc"
+    apps_label_title = {
+        "auth": _("auth"),
+        "core": _("core"),
+    }
     global_models_icon = {
         models.ProjectTag: 'fa fa-tag', models.MonitorItemTag: 'fa fa-tag',
         models.Project: 'fa fa-laptop', models.MonitorItem: 'fa fa-magic',
