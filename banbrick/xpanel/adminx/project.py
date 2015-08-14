@@ -14,5 +14,8 @@ class ProjectAdmin(object):
         'status', 'created_on', 'updated_on',
         'group', 'tag_set',
     )
+    list_display_links = (
+        'id', 'name',
+    )
 
 xadmin.site.register(models.Project, ProjectAdmin)

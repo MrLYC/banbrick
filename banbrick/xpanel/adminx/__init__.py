@@ -37,6 +37,9 @@ class SimpleTagAdmin(object):
     list_filter = (
         'created_on', 'updated_on',
     )
+    list_display_links = (
+        'id', 'name',
+    )
 
 xadmin.site.register(models.ProjectTag, SimpleTagAdmin)
 xadmin.site.register(models.MonitorItemTag, SimpleTagAdmin)

@@ -15,5 +15,9 @@ class MonitorItemAdmin(object):
         'status', 'created_on', 'updated_on',
         'type', 'project', 'tag_set',
     )
+    list_display_links = (
+        'id', 'name',
+    )
+    refresh_times = (3, 10, 60, 120, 180, 300, 600)
 
 xadmin.site.register(models.MonitorItem, MonitorItemAdmin)
