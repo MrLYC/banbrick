@@ -3475,6 +3475,7 @@ input[type="button"].btn-block {
 }
 
 .dropdown-menu {
+  overflow-y: auto;
   position: absolute;
   top: 100%;
   left: 0;
