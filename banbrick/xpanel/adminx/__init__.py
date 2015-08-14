@@ -19,6 +19,8 @@ xadmin.site.register(views.BaseAdminView, BaseAdminViewSetting)
 
 
 class CommAdminViewSetting(object):
+    site_title = u"BanBrick"
+    site_footer = u"BanBrick @lyc"
     global_models_icon = {
         models.ProjectTag: 'fa fa-tag', models.MonitorItemTag: 'fa fa-tag',
         models.Project: 'fa fa-laptop', models.MonitorItem: 'fa fa-magic',
