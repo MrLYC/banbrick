@@ -1,4 +1,5 @@
 from collections import namedtuple
+import logging
 
 from django.db import models
 
@@ -8,6 +9,7 @@ from core.models.base import BaseModel, BaseTag
 from core.models.project import Project
 from core.exceptions import ModelFieldValdateError
 
+logger = logging.getLogger(__name__)
 ItemType = namedtuple("ItemType", ["name", "factory"])
 ItemStatus = namedtuple("ItemStatus", ["name"])
 
@@ -45,16 +47,25 @@ class MonitorItem(BaseModel):
         default=None, unique=True, db_index=True,
     )
     value = models.CharField(
-        max_length=128, default=None,
+        max_length=128, default=None, null=True,
     )
     enable = models.BooleanField(default=True)
     tag_set = models.ManyToManyField(MonitorItemTag, blank=True)
 
+    def fix_value(self):
+        type = ITEM_TYPE[self.type]
+        self.value = type.factory(self.value)
+
 
 def _fix_monitor_item_value_by_type(sender, instance, **kwargs):
-    with catch(reraise=ModelFieldValdateError):
-        type = ITEM_TYPE[instance.type]
-        instance.value = type.factory(instance.value)
+    try:
+        instance.fix_value()
+    except Exception as err:
+        logger.warning(
+            "convert item value[%s] by type[%s] failed",
+            instance.value, instance.type,
+        )
+        instance.value = None
 
 models.signals.pre_save.connect(
     _fix_monitor_item_value_by_type,
