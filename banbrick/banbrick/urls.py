@@ -6,4 +6,5 @@ urlpatterns = patterns(
     url(r'favicon.ico', RedirectView.as_view(url='static/favicon.ico')),
 
     url(r'^panel/', include('xpanel.urls')),
+    url(r'^api/', include('apis.urls')),
 )

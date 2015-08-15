@@ -2,3 +2,4 @@ Django==1.7.2
 ycyc>=0.1.8.1
 MySQL-python==1.2.5
 -e git+https://github.com/sshwsfc/django-xadmin.git@django1.7#egg=django-xadmin
+djangorestframework==3.2.2
