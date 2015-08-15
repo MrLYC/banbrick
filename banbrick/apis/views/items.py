@@ -81,8 +81,7 @@ class ItemCollectorView(APIView):
 
         item.value = request.data.get("value")
         try:
-            item.fix_value()
-            item.save()
+            item.safe_save()
         except Exception as err:
             return Response({
                 "ok": False,

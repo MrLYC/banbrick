@@ -69,22 +69,17 @@ class MonitorItem(BaseModel):
     def __str__(self):
         return self.name
 
+    def safe_save(self):
+        try:
+            instance.fix_value()
+        except Exception as err:
+            logger.warning(
+                "convert item value[%s] by type[%s] failed",
+                instance.value, instance.type,
+            )
+            instance.value = None
+        self.save()
+
     def fix_value(self):
         type = ITEM_TYPE[self.type]
         self.value = type.factory(self.value)
-
-
-def _fix_monitor_item_value_by_type(sender, instance, **kwargs):
-    try:
-        instance.fix_value()
-    except Exception as err:
-        logger.warning(
-            "convert item value[%s] by type[%s] failed",
-            instance.value, instance.type,
-        )
-        instance.value = None
-
-models.signals.pre_save.connect(
-    _fix_monitor_item_value_by_type,
-    sender=MonitorItem,
-)
