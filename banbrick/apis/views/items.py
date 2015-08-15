@@ -1,3 +1,5 @@
+from django.db import transaction
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -36,7 +38,13 @@ class ItemCollectorView(APIView):
 
     def update_item(self, item, value):
         item.value = value
-        item.safe_save()
+        item.strict_save()
+
+    def insert_item_history(self, item, user):
+        models.MonitorItemHistory.objects.create(
+            item=item, user=user.username,
+            status=item.status, value=item.value,
+        )
 
     def post(self, request):
         try:
@@ -85,7 +93,9 @@ class ItemCollectorView(APIView):
             }, status=status.HTTP_404_NOT_FOUND)
 
         try:
-            self.update_item(item, request.data.get("value"))
+            with transaction.atomic():
+                self.update_item(item, request.data.get("value"))
+                self.insert_item_history(item, user)
         except exceptions.ModelFieldError as err:
             return Response({
                 "ok": False,
