@@ -1,16 +1,10 @@
-from datetime import timedelta
-
-from django.utils.timezone import utc
-from django.utils import timezone
-from django.conf import settings
-from rest_framework import status, parsers, renderers
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 
 from apis.utils.time import datetime, datetime_now
-
-EXPIRE_SECONDS = getattr(settings, 'REST_API_AUTH_EXPIRES', 60)
+from apis.utils.auth import is_token_expired
 
 
 class ApiAuthView(ObtainAuthToken):
@@ -27,13 +21,11 @@ class ApiAuthView(ObtainAuthToken):
         )
         now = datetime_now()
 
-        if (
-            not created or
-            token.created < now - timedelta(seconds=EXPIRE_SECONDS)
-        ):
+        if is_token_expired(token, now):
             token.created = now
             token.save()
 
         return Response({'token': token.key})
+
 
 api_auth_view = ApiAuthView.as_view()
