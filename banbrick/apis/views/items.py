@@ -6,6 +6,7 @@ from jsonschema.validators import Draft4Validator as Validator
 from jsonschema.exceptions import ValidationError
 
 from core import models
+from core import exceptions
 
 from apis.utils import auth as auth_utils
 
@@ -32,6 +33,10 @@ class ItemCollectorView(APIView):
             },
         },
     })
+
+    def update_item(self, item, value):
+        item.value = value
+        item.safe_save()
 
     def post(self, request):
         try:
@@ -79,10 +84,9 @@ class ItemCollectorView(APIView):
                 "detail": "item(%s) not found" % item_name,
             }, status=status.HTTP_404_NOT_FOUND)
 
-        item.value = request.data.get("value")
         try:
-            item.safe_save()
-        except Exception as err:
+            self.update_item(item, request.data.get("value"))
+        except exceptions.ModelFieldError as err:
             return Response({
                 "ok": False,
                 "detail": "value(%s) of item(%s) save failed" % (

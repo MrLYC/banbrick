@@ -9,7 +9,7 @@ from ycyc.base.contextutils import catch
 
 from core.models.base import BaseModel, BaseTag
 from core.models.project import Project
-from core.exceptions import ModelFieldValdateError
+from core.exceptions import ModelFieldError
 
 logger = logging.getLogger(__name__)
 ItemType = namedtuple("ItemType", ["name", "factory"])
@@ -81,5 +81,6 @@ class MonitorItem(BaseModel):
         self.save()
 
     def fix_value(self):
-        type = ITEM_TYPE[self.type]
-        self.value = type.factory(self.value)
+        with catch(reraise=ModelFieldError):
+            type = ITEM_TYPE[self.type]
+            self.value = type.factory(self.value)
