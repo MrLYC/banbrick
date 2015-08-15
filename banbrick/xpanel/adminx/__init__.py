@@ -29,6 +29,7 @@ class CommAdminViewSetting(object):
     global_models_icon = {
         models.ProjectTag: 'fa fa-tag', models.MonitorItemTag: 'fa fa-tag',
         models.Project: 'fa fa-laptop', models.MonitorItem: 'fa fa-magic',
+        models.MonitorItemHistory: 'fa fa-list',
     }
 
 xadmin.site.register(views.CommAdminView, CommAdminViewSetting)

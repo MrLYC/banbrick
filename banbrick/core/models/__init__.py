@@ -4,5 +4,5 @@ from .project import (
     ProjectTag, Project,
 )
 from .item import (
-    MonitorItemTag, MonitorItem,
+    MonitorItemTag, MonitorItem, MonitorItemHistory,
 )

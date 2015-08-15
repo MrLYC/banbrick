@@ -18,10 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: xpanel/adminx/__init__.py:26
-msgid "auth"
-msgstr "权限管理"
+#: banbrick/settings.py:88
+msgid "English"
+msgstr "英语"
 
-#: xpanel/adminx/__init__.py:27
-msgid "core"
-msgstr "基本模型"
+#: banbrick/settings.py:89
+msgid "Chinese"
+msgstr "汉语"

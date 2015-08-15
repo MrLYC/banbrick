@@ -10,6 +10,7 @@ from ycyc.base.contextutils import catch
 from core.models.base import BaseModel, BaseTag
 from core.models.project import Project
 from core.exceptions import ModelFieldError
+from core.utils import model as model_utils
 
 logger = logging.getLogger(__name__)
 ItemType = namedtuple("ItemType", ["name", "factory"])
@@ -71,16 +72,37 @@ class MonitorItem(BaseModel):
 
     def safe_save(self):
         try:
-            instance.fix_value()
-        except Exception as err:
+            self.fix_value()
+        except ModelFieldError as err:
             logger.warning(
                 "convert item value[%s] by type[%s] failed",
-                instance.value, instance.type,
+                self.value, self.type,
             )
-            instance.value = None
+            self.value = None
+        self.save()
+
+    def strict_save(self):
+        self.fix_value()
         self.save()
 
     def fix_value(self):
         with catch(reraise=ModelFieldError):
             type = ITEM_TYPE[self.type]
             self.value = type.factory(self.value)
+
+
+class MonitorItemHistory(BaseModel):
+    item = models.ForeignKey(
+        MonitorItem, null=False, db_index=True,
+        verbose_name=_("Item"),
+
+    )
+    user = models.CharField(
+        max_length=64, default=None, verbose_name=_("User"),
+    )
+    value = model_utils.ref_field(MonitorItem, "value")
+    status = model_utils.ref_field(MonitorItem, "status")
+
+    class Meta:
+        verbose_name = _('Monitor item history')
+        verbose_name_plural = _('Monitor item histories')
