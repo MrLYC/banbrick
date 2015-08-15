@@ -8,6 +8,8 @@ from jsonschema.validators import Draft4Validator as Validator
 from jsonschema.exceptions import ValidationError
 
 from core import models
+from core.models import project as project_models
+from core.models import item as item_models
 from core import exceptions
 
 from apis.utils import auth as auth_utils
@@ -66,11 +68,14 @@ class ItemCollectorView(APIView):
 
         project_name = request.data.get("project")
         try:
-            project = models.Project.objects.get(name=project_name)
-        except models.Project.DoesNotExist as err:
+            project = project_models.Project.objects.get(
+                name=project_name,
+                status=project_models.PROJECT_STATUS.enable,
+            )
+        except project_models.Project.DoesNotExist as err:
             return Response({
                 "ok": False,
-                "detail": "project(%s) not found" % project_name,
+                "detail": "enabled project(%s) not found" % project_name,
             }, status=status.HTTP_404_NOT_FOUND)
 
         if not auth_utils.is_user_own_project(user, project):
@@ -83,13 +88,14 @@ class ItemCollectorView(APIView):
 
         item_name = request.data.get("item")
         try:
-            item = models.MonitorItem.objects.get(
+            item = item_models.MonitorItem.objects.get(
                 name=item_name, project=project,
+                status=item_models.ITEM_STATUS.enable,
             )
-        except models.MonitorItem.DoesNotExist as err:
+        except item_models.MonitorItem.DoesNotExist as err:
             return Response({
                 "ok": False,
-                "detail": "item(%s) not found" % item_name,
+                "detail": "enabled item(%s) not found" % item_name,
             }, status=status.HTTP_404_NOT_FOUND)
 
         try:

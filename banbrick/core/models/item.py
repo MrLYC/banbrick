@@ -6,6 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from ycyc.base.contextutils import catch
+from ycyc.base.typeutils import constants
 
 from core.models.base import BaseModel, BaseTag
 from core.models.project import Project
@@ -23,11 +24,14 @@ ITEM_TYPE = (
     ItemType("boolean", bool),
     ItemType("decimal", decimal.Decimal),
 )
-ITEM_STATUS = (
+ITEM_STATUS_ARRAY = (
     ItemStatus("enable"),
     ItemStatus("disable"),
     ItemStatus("protected"),
 )
+ITEM_STATUS = constants(**{
+    t.name: i for i, t in enumerate(ITEM_STATUS_ARRAY)
+})
 
 
 class MonitorItemTag(BaseTag):
@@ -51,7 +55,7 @@ class MonitorItem(BaseModel):
     )
     status = models.BigIntegerField(
         choices=tuple(
-            (i, t.name) for i, t in enumerate(ITEM_STATUS)
+            (i, t.name) for i, t in enumerate(ITEM_STATUS_ARRAY)
         ), default=0, verbose_name=_("Status"),
     )
     value = models.CharField(
