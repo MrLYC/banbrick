@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'banbrick',
     'core',
     'xpanel',
+    'apis',
 )
 
 MIDDLEWARE_CLASSES = (
