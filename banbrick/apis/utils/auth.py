@@ -11,7 +11,7 @@ from rest_framework import HTTP_HEADER_ENCODING, exceptions
 from core import models as core_models
 
 EXPIRE_SECONDS = timedelta(
-    seconds=getattr(settings, 'REST_API_AUTH_EXPIRES', 60),
+    seconds=getattr(settings, 'REST_API_AUTH_EXPIRES', 180),
 )
 
 
@@ -25,7 +25,7 @@ def authenticate_from_key(auth_key):
     user, token = authenticate.authenticate_credentials(auth_key)
     if is_token_expired(token):
         token.delete()
-        raise exceptions.AuthenticationFailed("token is expired")
+        raise exceptions.AuthenticationFailed("token was expired")
     return user
 
 
