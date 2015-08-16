@@ -33,7 +33,7 @@ class ItemCollector(object):
     def login(self, password):
         request = urllib2.Request(
             urljoin(self.server, "api/auth/"),
-            json.dumps({"username": self.user, "password": password}),
+            json.dumps({"u": self.user, "p": password}),
             {"Content-Type": "application/json"},
         )
         response = urllib2.urlopen(request)

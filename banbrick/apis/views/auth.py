@@ -10,7 +10,10 @@ from apis.models import Token
 
 class ApiAuthView(ObtainAuthToken):
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data={
+            "username": request.data.get("u"),
+            "password": request.data.get("p"),
+        })
         if not serializer.is_valid():
             return Response(
                 serializer.errors,
