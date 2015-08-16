@@ -25,13 +25,13 @@ xadmin.site.register(models.MonitorItem, MonitorItemAdmin)
 
 class MonitorItemHistoryAdmin(object):
     list_display = (
-        'id', 'user', 'status', 'value',
+        'id', 'item', 'user', 'status', 'value',
     )
     search_fields = (
-        'user', 'status',
+        'user', 'item', 'status',
     )
     list_filter = (
-        'user', 'status', 'created_on', 'updated_on',
+        'user', 'item', 'status', 'created_on', 'updated_on',
     )
     list_display_links = (
         'id',
