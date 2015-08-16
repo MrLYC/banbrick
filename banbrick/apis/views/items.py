@@ -70,6 +70,7 @@ class ItemCollectorView(APIView):
         try:
             project = project_models.Project.objects.get(
                 name=project_name,
+                group__in=user.groups.all(),
                 status=project_models.PROJECT_STATUS.enable,
             )
         except project_models.Project.DoesNotExist as err:
@@ -77,14 +78,6 @@ class ItemCollectorView(APIView):
                 "ok": False,
                 "detail": "enabled project(%s) not found" % project_name,
             }, status=status.HTTP_404_NOT_FOUND)
-
-        if not auth_utils.is_user_own_project(user, project):
-            return Response({
-                "ok": False,
-                "detail": "user(%s) has no permission for project(%s)" % (
-                    user.username, project_name,
-                ),
-            }, status=status.HTTP_403_FORBIDDEN)
 
         item_name = request.data.get("item")
         try:
