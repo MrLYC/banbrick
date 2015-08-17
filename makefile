@@ -48,4 +48,4 @@ syncdb:
 	$(DJMANAGE) syncdb
 
 init: requires syncdb compilemessages
-	@echo "done"
+	$(DJMANAGE) loaddata $(SRCPATH)/banbrick/fixture/initial_data.json
