@@ -45,7 +45,7 @@ compilemessages:
 
 syncdb:
 	$(DJMANAGE) makemigrations
-	$(DJMANAGE) migrate
+	$(DJMANAGE) syncdb
 
 init: requires syncdb compilemessages
 	@echo "done"
