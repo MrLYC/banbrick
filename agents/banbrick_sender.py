@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# encoding: utf-8
 import urllib2
 import json
 
@@ -36,7 +38,10 @@ class ItemCollector(object):
             json.dumps({"u": self.user, "p": password}),
             {"Content-Type": "application/json"},
         )
-        response = urllib2.urlopen(request)
+        try:
+            response = urllib2.urlopen(request)
+        except urllib2.URLError as err:
+            raise AuthError(err.read())
         if response.code / 10 != 20:
             raise AuthError(response.read())
 
@@ -56,7 +61,11 @@ class ItemCollector(object):
             json.dumps(data),
             {"Content-Type": "application/json"},
         )
-        response = urllib2.urlopen(request)
+        try:
+            response = urllib2.urlopen(request)
+        except urllib2.URLError as err:
+            raise DataCollectError(err.read())
+
         if response.code / 10 != 20:
             raise DataCollectError(response.read())
 
@@ -66,9 +75,7 @@ class ItemCollector(object):
         return True
 
 
-if __name__ == "__main__":
-    import argparse
-
+def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("server", help="server of banbrick")
@@ -84,8 +91,14 @@ if __name__ == "__main__":
         collector.login(args.password)
     except AuthError as err:
         print(err.message)
+        return
     try:
         collector.collect_item(args.project, args.item, args.value)
     except DataCollectError as err:
         print(err.message)
-    print "ok"
+    else:
+        print "ok"
+
+if __name__ == "__main__":
+    import argparse
+    main()
