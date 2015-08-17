@@ -1,9 +1,4 @@
 banbrick
 ================================
 
-a project created by LYC
-
-Features
---------
-
--  TODO
+Banbrick is a tiny monitor system.
