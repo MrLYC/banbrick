@@ -57,7 +57,7 @@ class ItemCollector(object):
             "item": item, "value": value,
         }
         request = urllib2.Request(
-            urljoin(self.server, "api/monitoritems/collector/"),
+            urljoin(self.server, "api/collector/monitoritems/"),
             json.dumps(data),
             {"Content-Type": "application/json"},
         )
