@@ -10,6 +10,7 @@ from jsonschema.exceptions import ValidationError
 from core import models
 from core.models import project as project_models
 from core.models import item as item_models
+from core.models import trigger as trigger_models
 from core import exceptions
 
 from apis.utils import auth as auth_utils
@@ -41,6 +42,13 @@ class ItemCollectorView(APIView):
     def update_item(self, item, value):
         item.value = value
         item.strict_save()
+
+    def check_triggers(self, item):
+        triggers = trigger_models.Trigger.objects.filter(
+            item=item,
+        )
+        for trigger in triggers:
+            trigger.on_item_changed(item)
 
     def insert_item_history(self, item, user):
         models.MonitorItemHistory.objects.create(
@@ -102,6 +110,8 @@ class ItemCollectorView(APIView):
                     request.data.get("value"), item_name,
                 ),
             }, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        self.check_triggers(item)
 
         return Response({
             "ok": True,
