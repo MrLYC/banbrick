@@ -7,4 +7,6 @@ urlpatterns = patterns(
 
     url(r'^panel/', include('xpanel.urls')),
     url(r'^api/', include('apis.urls')),
+
+    url(r'', RedirectView.as_view(url='panel/')),
 )

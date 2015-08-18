@@ -14,7 +14,7 @@ PIPINSTALL := $(PYENV) pip install -i http://pypi.douban.com/simple/
 
 -include $(DEVMKFILE)
 
-.PHONY: dev-mk clean full-clean pylint pylint-full test requires compilemessages syncdb init
+.PHONY: dev-mk clean full-clean pylint pylint-full test requires compilemessages syncdb init demo-run
 
 dev-mk:
 	@echo "\033[33mmake from $(DEVMKFILE)\033[0m"
@@ -26,6 +26,8 @@ clean:
 
 full-clean: clean
 	@git clean -f
+	@find $(SRCPATH) -name "migrations" -type d -exec rm -rf {}/ \; || true
+	@rm db.sqlite3 || true
 
 pylint:
 	$(PEP8) $(SRCPATH)
@@ -49,3 +51,7 @@ syncdb:
 
 init: requires syncdb compilemessages
 	$(DJMANAGE) loaddata $(SRCPATH)/banbrick/fixture/initial_data.json
+
+demo-run: full-clean init
+	$(eval port ?= 9274)
+	$(DJMANAGE) runserver 0:$(port)
