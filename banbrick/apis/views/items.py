@@ -1,3 +1,5 @@
+import logging
+
 from django.db import transaction
 
 from rest_framework import status
@@ -7,6 +9,8 @@ from rest_framework.views import APIView
 from jsonschema.validators import Draft4Validator as Validator
 from jsonschema.exceptions import ValidationError
 
+from ycyc.base.allowfail import AllowFail
+
 from core import models
 from core.models import project as project_models
 from core.models import item as item_models
@@ -14,6 +18,8 @@ from core.models import trigger as trigger_models
 from core import exceptions
 
 from apis.utils import auth as auth_utils
+
+logger = logging.getLogger(__name__)
 
 
 class ItemCollectorView(APIView):
@@ -43,9 +49,10 @@ class ItemCollectorView(APIView):
         item.value = value
         item.strict_save()
 
+    @AllowFail("ItemCollectorView.check_triggers")
     def check_triggers(self, item):
         triggers = trigger_models.Trigger.objects.filter(
-            item=item,
+            item=item, status=trigger_models.TRIGGER_STATUS.enable,
         )
         for trigger in triggers:
             trigger.on_item_changed(item)
@@ -57,6 +64,7 @@ class ItemCollectorView(APIView):
         )
 
     def post(self, request):
+        logger.info("New request for item collector")
         try:
             self.PostValidator.validate(request.data)
         except ValidationError as err:
@@ -112,6 +120,7 @@ class ItemCollectorView(APIView):
             }, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         self.check_triggers(item)
+        logger.info("Item[%s] has updated", item_name)
 
         return Response({
             "ok": True,
