@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from ycyc.base.typeutils import constants
 
-from core.models.base import BaseModel, BaseTag
+from core.models.base import BaseModel, BaseTag, BASE_VALIDATORS
 
 ProjectStatus = namedtuple("ProjectStatus", ["name"])
 PROJECT_STATUS_ARRAY = (
@@ -29,7 +29,9 @@ class Project(BaseModel):
     name = models.CharField(
         max_length=64, null=False, blank=False,
         default=None, unique=True, db_index=True,
-        verbose_name=_("Name"),
+        verbose_name=_("Name"), validators=[
+            BASE_VALIDATORS.safety_string,
+        ],
     )
     description = models.CharField(
         max_length=140, null=True, blank=True,

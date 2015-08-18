@@ -1,5 +1,17 @@
 from django.db import models
+from django.core import validators
 from django.utils.translation import ugettext_lazy as _
+
+from ycyc.base.typeutils import constants
+
+
+BASE_VALIDATORS = constants(
+    safety_string=validators.RegexValidator(
+        r"^[^\[\]\(\)\<\>=\"\',:]+$",
+        _("Not allow match in: []()<>,\'\":"),
+        _("Invalid string"),
+    ),
+)
 
 
 class BaseModel(models.Model):
@@ -30,7 +42,9 @@ class BaseTag(BaseModel):
     name = models.CharField(
         max_length=64, null=False, blank=False,
         default=None, unique=True, db_index=True,
-        verbose_name=_("Name"),
+        verbose_name=_("Name"), validators=[
+            BASE_VALIDATORS.safety_string,
+        ],
     )
 
     class Meta:

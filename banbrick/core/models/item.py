@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from ycyc.base.contextutils import catch
 from ycyc.base.typeutils import constants
 
-from core.models.base import BaseModel, BaseTag
+from core.models.base import BaseModel, BaseTag, BASE_VALIDATORS
 from core.models.project import Project
 from core.exceptions import ModelFieldError
 from core.utils import model as model_utils
@@ -47,6 +47,9 @@ class MonitorItem(BaseModel):
     name = models.CharField(
         max_length=64, null=False, blank=False,
         default=None, db_index=True, verbose_name=_("Name"),
+        validators=[
+            BASE_VALIDATORS.safety_string,
+        ],
     )
     type = models.BigIntegerField(
         choices=tuple(

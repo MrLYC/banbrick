@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-16 01:22+0800\n"
+"POT-Creation-Date: 2015-08-18 12:37+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,86 +18,94 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: core/models/base.py:8
+#: core/models/base.py:11
+msgid "Not allow match in: []()<>,'\":"
+msgstr "不允许出现: []()<>,'\":"
+
+#: core/models/base.py:12
+msgid "Invalid string"
+msgstr "非法字符串"
+
+#: core/models/base.py:20
 msgid "Created on"
 msgstr "创建于"
 
-#: core/models/base.py:13
+#: core/models/base.py:25
 msgid "Updated on"
 msgstr "更新于"
 
-#: core/models/base.py:33 core/models/item.py:45 core/models/project.py:27
+#: core/models/base.py:45 core/models/item.py:49 core/models/project.py:32
 msgid "Name"
 msgstr "名称"
 
-#: core/models/item.py:35
+#: core/models/item.py:39
 msgid "Monitor item tag"
 msgstr "监控项标签"
 
-#: core/models/item.py:36
+#: core/models/item.py:40
 msgid "Monitor item tags"
 msgstr "监控项标签"
 
-#: core/models/item.py:41 core/models/project.py:46
+#: core/models/item.py:45 core/models/project.py:53
 msgid "Project"
 msgstr "项目"
 
-#: core/models/item.py:50
+#: core/models/item.py:57
 msgid "Type"
 msgstr "类型"
 
-#: core/models/item.py:55 core/models/project.py:39
+#: core/models/item.py:62 core/models/project.py:46
 msgid "Status"
 msgstr "状态"
 
-#: core/models/item.py:59
+#: core/models/item.py:66
 msgid "Value"
 msgstr "值"
 
-#: core/models/item.py:62 core/models/project.py:42
+#: core/models/item.py:69 core/models/project.py:49
 msgid "Tags"
 msgstr "标签"
 
-#: core/models/item.py:66
+#: core/models/item.py:73
 msgid "Monitor item"
 msgstr "监控项"
 
-#: core/models/item.py:67
+#: core/models/item.py:74
 msgid "Monitor items"
 msgstr "监控项"
 
-#: core/models/item.py:93
+#: core/models/item.py:104
 msgid "Item"
 msgstr "项"
 
-#: core/models/item.py:97
+#: core/models/item.py:108
 msgid "User"
 msgstr "用户"
 
-#: core/models/item.py:103
+#: core/models/item.py:114
 msgid "Monitor item history"
 msgstr "监控项历史"
 
-#: core/models/item.py:104
+#: core/models/item.py:115
 msgid "Monitor item histories"
 msgstr "监控项历史"
 
-#: core/models/project.py:19
+#: core/models/project.py:24
 msgid "Project tag"
 msgstr "项目标签"
 
-#: core/models/project.py:20
+#: core/models/project.py:25
 msgid "Project tags"
 msgstr "项目标签"
 
-#: core/models/project.py:31
+#: core/models/project.py:38
 msgid "Description"
 msgstr "描述"
 
-#: core/models/project.py:34
+#: core/models/project.py:41
 msgid "Group"
 msgstr "组"
 
-#: core/models/project.py:47
+#: core/models/project.py:54
 msgid "Projects"
 msgstr "项目"
