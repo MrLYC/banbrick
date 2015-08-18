@@ -5,10 +5,13 @@ from django.utils.translation import ugettext_lazy as _
 from core import models
 
 from .item import (
-    MonitorItemAdmin,
+    MonitorItemAdmin, MonitorItemHistoryAdmin,
 )
 from .project import (
     ProjectAdmin,
+)
+from .trigger import(
+    TriggerConditionAdmin, TriggerAdmin,
 )
 
 
@@ -30,6 +33,7 @@ class CommAdminViewSetting(object):
         models.ProjectTag: 'fa fa-tag', models.MonitorItemTag: 'fa fa-tag',
         models.Project: 'fa fa-laptop', models.MonitorItem: 'fa fa-magic',
         models.MonitorItemHistory: 'fa fa-list',
+        models.Trigger: 'fa fa-gavel', models.Condition: 'fa fa-question',
     }
 
 xadmin.site.register(views.CommAdminView, CommAdminViewSetting)
