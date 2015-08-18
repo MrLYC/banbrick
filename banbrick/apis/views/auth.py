@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authentication import TokenAuthentication, exceptions
 
-from apis.utils.time import datetime, datetime_now
+from banbrick.utils.time import datetime, datetime_now
 from apis.utils.auth import is_token_expired
 from apis.models import Token
 
