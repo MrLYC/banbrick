@@ -1,4 +1,5 @@
 import logging
+from multiprocessing import pool, cpu_count
 
 from django.db import transaction
 
@@ -10,6 +11,7 @@ from jsonschema.validators import Draft4Validator as Validator
 from jsonschema.exceptions import ValidationError
 
 from ycyc.base.allowfail import AllowFail
+from ycyc.base.contextutils import catch
 
 from core import models
 from core.models import project as project_models
@@ -20,6 +22,7 @@ from core import exceptions
 from apis.utils import auth as auth_utils
 
 logger = logging.getLogger(__name__)
+TasksPool = pool.ThreadPool(cpu_count())
 
 
 class ItemCollectorView(APIView):
@@ -51,6 +54,7 @@ class ItemCollectorView(APIView):
 
     @AllowFail("ItemCollectorView.check_triggers")
     def check_triggers(self, item):
+        logger.debug("check_triggers: %s", item.name)
         triggers = trigger_models.Trigger.objects.filter(
             item=item, status=trigger_models.TRIGGER_STATUS.enable,
         )
@@ -119,14 +123,16 @@ class ItemCollectorView(APIView):
                 ),
             }, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-        self.check_triggers(item)
         logger.info("Item[%s] has updated", item_name)
-
-        return Response({
-            "ok": True,
-            "detail": {
-                "project": project.id,
-                "item": item.id,
-                "value": item.value,
-            },
-        }, status=status.HTTP_202_ACCEPTED)
+        try:
+            return Response({
+                "ok": True,
+                "detail": {
+                    "project": project.id,
+                    "item": item.id,
+                    "value": item.value,
+                },
+            }, status=status.HTTP_202_ACCEPTED)
+        finally:
+            with catch():
+                TasksPool.apply_async(self.check_triggers, [item])
