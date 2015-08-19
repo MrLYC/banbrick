@@ -10,7 +10,7 @@ PEP8 := $(PYENV) pep8 --repeat --ignore=E202,E501
 PYLINT := $(PYENV) pylint --disable=I0011 --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}"
 PYTEST := $(PYENV) py.test -v -x
 DJMANAGE := $(PYENV) $(SRCPATH)/manage.py
-PIPINSTALL := $(PYENV) pip install -i http://pypi.douban.com/simple/
+PIPINSTALL := $(PYENV) pip install
 
 -include $(DEVMKFILE)
 

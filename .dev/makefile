@@ -8,7 +8,7 @@ PYTHON := $(PYENV) $(VENVPATH)/python
 PEP8 := $(PYENV) $(VENVPATH)/pep8 --repeat --ignore=E202,E501
 PYLINT := $(PYENV) $(VENVPATH)/pylint --disable=I0011 --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}"
 PYTEST := $(PYENV) $(VENVPATH)/py.test -v -x
-PIPINSTALL := $(PYENV) $(VENVPATH)/pip install -i http://pypi.douban.com/simple/
+PIPINSTALL := $(PYENV) $(VENVPATH)/pip install
 VIRTUAL_ENV := $(VIRTUALENV)
 endif
 
