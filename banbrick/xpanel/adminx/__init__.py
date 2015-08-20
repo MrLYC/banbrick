@@ -11,7 +11,7 @@ from .project import (
     ProjectAdmin,
 )
 from .trigger import(
-    TriggerConditionAdmin, TriggerAdmin,
+    TriggerAdmin,
 )
 
 
@@ -33,7 +33,7 @@ class CommAdminViewSetting(object):
         models.ProjectTag: 'fa fa-tag', models.MonitorItemTag: 'fa fa-tag',
         models.Project: 'fa fa-laptop', models.MonitorItem: 'fa fa-magic',
         models.MonitorItemHistory: 'fa fa-list',
-        models.Trigger: 'fa fa-gavel', models.Condition: 'fa fa-question',
+        models.Trigger: 'fa fa-gavel',
     }
 
 xadmin.site.register(views.CommAdminView, CommAdminViewSetting)

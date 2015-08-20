@@ -52,6 +52,10 @@ syncdb:
 init: requires syncdb compilemessages
 	$(DJMANAGE) loaddata $(SRCPATH)/banbrick/fixture/initial_data.json
 
-demo-run: full-clean init
+server-run:
 	$(eval port ?= 9274)
 	$(DJMANAGE) runserver 0:$(port)
+
+demo-run: full-clean init
+	$(eval port ?= 9274)
+	make server-run port=$(port)

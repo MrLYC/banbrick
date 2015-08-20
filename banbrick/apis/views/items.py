@@ -54,12 +54,13 @@ class ItemCollectorView(APIView):
 
     @AllowFail("ItemCollectorView.check_triggers")
     def check_triggers(self, item):
+        item_value = item.value
         logger.debug("check_triggers: %s", item.name)
         triggers = trigger_models.Trigger.objects.filter(
             item=item, status=trigger_models.TRIGGER_STATUS.enable,
         )
         for trigger in triggers:
-            trigger.on_item_changed(item)
+            trigger.on_item_changed(item_value)
 
     def insert_item_history(self, item, user):
         models.MonitorItemHistory.objects.create(
