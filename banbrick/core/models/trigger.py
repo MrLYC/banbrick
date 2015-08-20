@@ -139,5 +139,5 @@ class Trigger(base.BaseModel):
                     ),
                     getattr(settings, "EMAIL_HOST_USER"),
                     email,
-                    fail_silently=False,
+                    fail_silently=True,
                 )
