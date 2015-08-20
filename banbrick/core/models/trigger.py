@@ -3,6 +3,8 @@ import logging
 
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+from django.core.mail import send_mail
 
 from ycyc.base.iterutils import getattrs
 from ycyc.base.allowfail import AllowFail
@@ -76,10 +78,14 @@ class Trigger(base.BaseModel):
         verbose_name_plural = _('Triggers')
         unique_together = ('item', 'name',)
 
-    def __str__(self):
-        return "%s: item[%s].value %s %s" % (
-            self.name, self.item.name, self.operator, self.value,
+    @property
+    def expression(self):
+        return "item[%s].value %s %s" % (
+            self.item.name, self.operator, self.value
         )
+
+    def __str__(self):
+        return "%s: %s" % (self.name, self.expression)
 
     @AllowFail("Trigger.check_condition")
     def check_condition(self, item_value):
@@ -103,6 +109,7 @@ class Trigger(base.BaseModel):
 
     @AllowFail("Trigger.on_item_changed")
     def on_item_changed(self, item_value):
+        old_active = self.active
         result, exception = self.check_condition(item_value)
         if self.active and not result:
             self.active = False
@@ -112,3 +119,25 @@ class Trigger(base.BaseModel):
             self.active = True
             self.active_on = time_utils.datetime_now()
             self.save()
+
+        if old_active != self.active:
+            email = [u.email for u in self.alert_user_set.all()]
+            if email:
+                send_mail(
+                    "BanBrick Alert",
+                    _(
+                        "Trigger[{name}] has changed\n"
+                        "active_on: {active_on}, active: {active}\n"
+                        "item: {item}, expression: {expression}\n"
+                        "description: \n{description}\n"
+                    ).format(
+                        name=self.name, status=self.status,
+                        active_on=self.active_on.isoformat(),
+                        active=self.active, expression=self.expression,
+                        item=self.item.name, item_value=self.item.value,
+                        description=self.description,
+                    ),
+                    getattr(settings, "EMAIL_HOST_USER"),
+                    email,
+                    fail_silently=False,
+                )
