@@ -111,28 +111,30 @@ class Trigger(base.BaseModel):
     def on_item_changed(self, item_value):
         old_active = self.active
         result, exception = self.check_condition(item_value)
+        now = time_utils.datetime_now()
         if self.active and not result:
             self.active = False
             self.active_on = None
             self.save()
         elif not self.active and result:
             self.active = True
-            self.active_on = time_utils.datetime_now()
+            self.active_on = now
             self.save()
 
         if old_active != self.active:
             email = [u.email for u in self.alert_user_set.all()]
             if email:
                 send_mail(
-                    "BanBrick Alert",
+                    _("BanBrick Alert"),
                     _(
-                        "Trigger[{name}] has changed\n"
-                        "active_on: {active_on}, active: {active}\n"
-                        "item: {item}, expression: {expression}\n"
+                        "Trigger[{trigger}] has changed\n"
+                        "changed on: {now}, active: {active}\n"
+                        "item: {item}, item value: {item_value}\n"
                         "description: \n{description}\n"
                     ).format(
+                        trigger=str(self), now=now.isoformat(),
                         name=self.name, status=self.status,
-                        active_on=self.active_on.isoformat(),
+                        active_on=self.active_on and self.active_on.isoformat(),
                         active=self.active, expression=self.expression,
                         item=self.item.name, item_value=self.item.value,
                         description=self.description,
