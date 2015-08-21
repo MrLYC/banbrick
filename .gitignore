@@ -63,3 +63,4 @@ banbrick-venv/
 .dev/activate
 db.sqlite3
 migrations/
+banbrick/banbrick/settings/
