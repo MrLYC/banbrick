@@ -137,15 +137,17 @@ LOGGING = {
     },
 }
 
-#
+# Locale messages path
 LOCALE_PATHS = (
     'locale',
 )
 
+# Fixtures to init the database
 FIXTURE_DIRS = (
     'fixture',
 )
 
+# Rest framework settings
 REST_FRAMEWORK = {
     "DEFAULT_RENDERER_CLASSES": (
         "rest_framework.renderers.JSONRenderer",
@@ -157,6 +159,7 @@ REST_FRAMEWORK = {
 
 REST_API_AUTH_EXPIRES = 3600
 
+# Setting for send email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.tom.com'
 EMAIL_PORT = 25
