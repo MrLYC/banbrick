@@ -1,3 +1,5 @@
+from django.db import transaction
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -25,14 +27,14 @@ class ApiAuthView(ObtainAuthToken):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        Token.objects.filter(
-            user=serializer.validated_data['user'],
-        ).delete()
-
         now = datetime_now()
-        token = Token.objects.create(
-            created=now, user=serializer.validated_data['user'],
-        )
+        with transaction.atomic():
+            Token.objects.filter(
+                user=serializer.validated_data['user'],
+            ).delete()
+            token = Token.objects.create(
+                created=now, user=serializer.validated_data['user'],
+            )
         logger.info("User[%s] authenticate successed", token.user)
 
         return Response({'token': token.key})
