@@ -2,6 +2,7 @@
 # encoding: utf-8
 import urllib2
 import json
+from collections import namedtuple
 
 
 class AuthError(Exception):
@@ -21,6 +22,10 @@ def urljoin(base, path):
 
 
 class ItemCollector(object):
+    CollectResult = namedtuple("CollectResult", [
+        "try_times", "result", "status_code",
+    ])
+
     def __init__(self, server, user):
         self.server = server
         self.user = user
@@ -41,7 +46,7 @@ class ItemCollector(object):
         try:
             response = urllib2.urlopen(request)
         except urllib2.URLError as err:
-            raise AuthError(err.read())
+            raise AuthError(err.reason)
         if response.code / 10 != 20:
             raise AuthError(response.read())
 
@@ -51,7 +56,7 @@ class ItemCollector(object):
             raise AuthError("token is missed")
         self._token = token
 
-    def collect_item(self, project, item, value):
+    def collect_item(self, project, item, value, max_retries=3):
         data = {
             "auth": self.token, "project": project,
             "item": item, "value": value,
@@ -61,10 +66,16 @@ class ItemCollector(object):
             json.dumps(data),
             {"Content-Type": "application/json"},
         )
-        try:
-            response = urllib2.urlopen(request)
-        except urllib2.URLError as err:
-            raise DataCollectError(err.read())
+
+        err_msg = "max retries is less than 1"
+        for i in range(max_retries):
+            try:
+                response = urllib2.urlopen(request)
+                break
+            except urllib2.URLError as err:
+                err_msg = err.reason
+        else:
+            raise DataCollectError(err_msg)
 
         if response.code / 10 != 20:
             raise DataCollectError(response.read())
@@ -72,7 +83,11 @@ class ItemCollector(object):
         result = json.loads(response.read())
         if result["ok"] != True:
             raise DataCollectError(result["detail"])
-        return True
+        return self.CollectResult(
+            try_times=i + 1,
+            result=result,
+            status_code=response.code,
+        )
 
 
 def main():
@@ -84,6 +99,10 @@ def main():
     parser.add_argument("project", help="project to collect")
     parser.add_argument("item", help="item to collect")
     parser.add_argument("value", help="value to refresh")
+    parser.add_argument(
+        "-t", "--tryn", type=int, default=3,
+        help="max try times if failed",
+    )
 
     args = parser.parse_args()
     collector = ItemCollector(args.server, args.user)
@@ -93,7 +112,7 @@ def main():
         print(err.message)
         return
     try:
-        collector.collect_item(args.project, args.item, args.value)
+        collector.collect_item(args.project, args.item, args.value, args.tryn)
     except DataCollectError as err:
         print(err.message)
     else:
