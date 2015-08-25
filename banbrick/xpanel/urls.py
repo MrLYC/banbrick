@@ -6,5 +6,5 @@ xadmin.autodiscover()
 urlpatterns = patterns(
     'panel',
 
-    url(r'^', include(xadmin.site.urls), name='xpanel'),
+    url(r'^', include(xadmin.site.urls)),
 )
