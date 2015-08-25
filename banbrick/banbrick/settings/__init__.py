@@ -1,19 +1,9 @@
+from ycyc.base.funcutils import export_module
+from ycyc.base.txtutils import sep_join
+
 for setting_name in ("prod", "dev", "demo"):
-    if setting_name == "prod":
-        try:
-            from .prod import *
-            break
-        except ImportError:
-            pass
-    elif setting_name == "dev":
-        try:
-            from .dev import *
-            break
-        except ImportError:
-            pass
-    elif setting_name == "demo":
-        try:
-            from .demo import *
-            break
-        except ImportError:
-            pass
+    try:
+        export_module(sep_join(".", [__name__, setting_name]))
+        break
+    except ImportError:
+        pass
