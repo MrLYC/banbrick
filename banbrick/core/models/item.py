@@ -18,20 +18,17 @@ ItemType = namedtuple("ItemType", ["name", "factory"])
 ItemStatus = namedtuple("ItemStatus", ["name"])
 
 ITEM_TYPE = (
-    ItemType("integer", int),
-    ItemType("float", float),
-    ItemType("text", unicode),
-    ItemType("boolean", bool),
-    ItemType("decimal", decimal.Decimal),
+    ItemType(_("integer"), int),
+    ItemType(_("float"), float),
+    ItemType(_("text"), unicode),
+    ItemType(_("boolean"), bool),
+    ItemType(_("decimal"), decimal.Decimal),
 )
 ITEM_STATUS_ARRAY = (
-    ItemStatus("enable"),
-    ItemStatus("disable"),
-    ItemStatus("protected"),
+    ItemStatus(_("enable")),
+    ItemStatus(_("disable")),
+    ItemStatus(_("protected")),
 )
-ITEM_STATUS = constants(**{
-    t.name: i for i, t in enumerate(ITEM_STATUS_ARRAY)
-})
 
 
 class MonitorItemTag(BaseTag):

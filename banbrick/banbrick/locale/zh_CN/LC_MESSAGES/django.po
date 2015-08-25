@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-21 00:44+0800\n"
+"POT-Creation-Date: 2015-08-25 09:47+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: banbrick/settings.py:84
+#: banbrick/settings/demo.py:84
 msgid "English"
 msgstr "英语"
 
-#: banbrick/settings.py:85
+#: banbrick/settings/demo.py:85
 msgid "Chinese"
 msgstr "汉语"

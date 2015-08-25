@@ -10,13 +10,10 @@ from core.models.base import BaseModel, BaseTag, BASE_VALIDATORS
 
 ProjectStatus = namedtuple("ProjectStatus", ["name"])
 PROJECT_STATUS_ARRAY = (
-    ProjectStatus("enable"),
-    ProjectStatus("disable"),
-    ProjectStatus("protected"),
+    ProjectStatus(_("enable")),
+    ProjectStatus(_("disable")),
+    ProjectStatus(_("protected")),
 )
-PROJECT_STATUS = constants(**{
-    t.name: i for i, t in enumerate(PROJECT_STATUS_ARRAY)
-})
 
 
 class ProjectTag(BaseTag):

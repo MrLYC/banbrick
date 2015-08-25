@@ -22,13 +22,10 @@ logger = logging.getLogger(__name__)
 
 TriggerStatus = namedtuple("TriggerStatus", ["name"])
 TRIGGER_STATUS_ARRAY = (
-    TriggerStatus("enable"),
-    TriggerStatus("disable"),
-    TriggerStatus("protected"),
+    TriggerStatus(_("enable")),
+    TriggerStatus(_("disable")),
+    TriggerStatus(_("protected")),
 )
-TRIGGER_STATUS = constants(**{
-    t.name: i for i, t in enumerate(TRIGGER_STATUS_ARRAY)
-})
 
 
 class Trigger(base.BaseModel):
