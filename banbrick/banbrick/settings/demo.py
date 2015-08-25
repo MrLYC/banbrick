@@ -13,7 +13,7 @@ import os
 
 from django.utils.translation import ugettext_lazy as _
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.environ.get("PYTHONPATH", os.getcwd())
 
 
 # Quick-start development settings - unsuitable for production
@@ -58,7 +58,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-
 )
 
 ROOT_URLCONF = 'banbrick.urls'

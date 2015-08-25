@@ -18,7 +18,7 @@ class Command(BaseCommand):
         locale_paths = set(getattr(settings, "LOCALE_PATHS", ()))
         base_dir = getattr(settings, "BASE_DIR", os.getcwd())
         for app in getattr(settings, "INSTALLED_APPS", ()):
-            app_path = os.path.join(base_dir, app)
+            app_path = os.path.join(base_dir, app.replace(".", os.sep))
             if os.path.isdir(app_path):
                 cwd_names = set(os.listdir(app_path))
                 if not cwd_names & locale_paths:
