@@ -131,7 +131,19 @@ LOGGING = {
     'loggers': {
         '': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',
+            'level': 'WARNING',
+        },
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console', 'file'],
+            'level': 'WARNING',
+        },
+        'ycyc': {
+            'handlers': ['console', 'file'],
+            'level': 'WARNING',
         },
     },
 }
