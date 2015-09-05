@@ -27,9 +27,9 @@ class TriggerAdmin(object):
     )
     refresh_times = (3, 10, 60, 120, 180, 300, 600)
 
-    def setup_forms(self):
+    def instance_forms(self):
         user = self.request.user
-        super(TriggerAdmin, self).setup_forms()
+        super(TriggerAdmin, self).instance_forms()
         fields = self.form_obj.fields
         if user.is_superuser:
             return
@@ -46,6 +46,8 @@ class TriggerAdmin(object):
                 groups__in=user.groups.all()
             )
         )
+        from django import forms
+        forms.ModelForm
 
     def get_list_queryset(self):
         qs = super(TriggerAdmin, self).get_list_queryset()

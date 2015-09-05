@@ -20,9 +20,9 @@ class MonitorItemAdmin(object):
     )
     refresh_times = (3, 10, 60, 120, 180, 300, 600)
 
-    def setup_forms(self):
+    def instance_forms(self):
         user = self.request.user
-        super(MonitorItemAdmin, self).setup_forms()
+        super(MonitorItemAdmin, self).instance_forms()
         fields = self.form_obj.fields
         if user.is_superuser:
             return
