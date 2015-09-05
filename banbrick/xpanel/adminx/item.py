@@ -39,19 +39,16 @@ class MonitorItemAdmin(object):
             return qs
         return qs.filter(project__group__in=user.groups.all())
 
-xadmin.site.register(models.MonitorItem, MonitorItemAdmin)
-
 
 class MonitorItemHistoryAdmin(object):
     list_display = (
-        'id', 'item', 'user', 'status', 'value',
-        'created_on', 'updated_on',
+        'id', 'item', 'user', 'status', 'value', 'updated_on',
     )
     search_fields = (
         'user', 'item', 'status',
     )
     list_filter = (
-        'user', 'item', 'status', 'created_on', 'updated_on',
+        'user', 'item', 'status', 'updated_on',
     )
     list_display_links = (
         'id',

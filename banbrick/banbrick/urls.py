@@ -4,7 +4,7 @@ from django.views.generic import RedirectView
 urlpatterns = patterns(
     '',
     url(r'^favicon.ico$', RedirectView.as_view(url='static/favicon.ico')),
-    url(r'^$', RedirectView.as_view(pattern_name='index')),
+    url(r'^$', RedirectView.as_view(url='panel/')),
 
     url(r'^panel/', include('xpanel.urls')),
     url(r'^api/', include('apis.urls')),

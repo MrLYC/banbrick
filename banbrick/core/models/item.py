@@ -95,17 +95,25 @@ class MonitorItem(BaseModel):
             self.value = type.factory(self.value)
 
 
-class MonitorItemHistory(BaseModel):
+class MonitorItemHistory(models.Model):
     item = models.ForeignKey(
         MonitorItem, null=False, db_index=True,
         verbose_name=_("Item"),
 
+    )
+    updated_on = models.DateTimeField(
+        auto_now=True,
+        auto_now_add=True,
+        verbose_name=_("Updated on"),
     )
     user = models.CharField(
         max_length=64, default=None, verbose_name=_("User"),
     )
     value = model_utils.ref_field(MonitorItem, "value")
     status = model_utils.ref_field(MonitorItem, "status")
+
+    def __str__(self):
+        return "<item[%s]: %s>" % (self.item, self.value)
 
     class Meta:
         verbose_name = _('Monitor item history')
