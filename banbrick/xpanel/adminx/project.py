@@ -18,4 +18,11 @@ class ProjectAdmin(object):
         'id', 'name',
     )
 
+    def get_list_queryset(self):
+        qs = super(ProjectAdmin, self).get_list_queryset()
+        user = self.request.user
+        if user.is_superuser:
+            return qs
+        return qs.filter(group__in=user.groups.all())
+
 xadmin.site.register(models.Project, ProjectAdmin)
