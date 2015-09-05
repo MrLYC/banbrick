@@ -31,14 +31,20 @@ class TriggerAdmin(object):
         user = self.request.user
         super(TriggerAdmin, self).setup_forms()
         fields = self.form_obj.fields
+        if user.is_superuser:
+            return
 
         item_field = fields["item"]
         item_field.queryset = item_field.queryset.filter(
             project__group__in=user.groups.all()
         )
+        trigger_ins = self.form_obj.instance
         alert_user_set_field = fields["alert_user_set"]
-        alert_user_set_field.queryset = alert_user_set_field.queryset.filter(
-            groups__in=user.groups.all()
+        alert_user_set_field.queryset = (
+            trigger_ins.alert_user_set.all() |
+            alert_user_set_field.queryset.filter(
+                groups__in=user.groups.all()
+            )
         )
 
     def get_list_queryset(self):

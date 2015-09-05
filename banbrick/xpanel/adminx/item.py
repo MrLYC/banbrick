@@ -24,6 +24,8 @@ class MonitorItemAdmin(object):
         user = self.request.user
         super(MonitorItemAdmin, self).setup_forms()
         fields = self.form_obj.fields
+        if user.is_superuser:
+            return
 
         project_field = fields["project"]
         project_field.queryset = project_field.queryset.filter(
