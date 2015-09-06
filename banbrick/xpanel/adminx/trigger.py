@@ -46,8 +46,6 @@ class TriggerAdmin(object):
                 groups__in=user.groups.all()
             )
         )
-        from django import forms
-        forms.ModelForm
 
     def get_list_queryset(self):
         qs = super(TriggerAdmin, self).get_list_queryset()

@@ -18,6 +18,16 @@ class ProjectAdmin(object):
         'id', 'name',
     )
 
+    def instance_forms(self):
+        user = self.request.user
+        super(ProjectAdmin, self).instance_forms()
+        fields = self.form_obj.fields
+        if user.is_superuser:
+            return
+
+        group_field = fields["group"]
+        group_field.queryset = user.groups.all()
+
     def get_list_queryset(self):
         qs = super(ProjectAdmin, self).get_list_queryset()
         user = self.request.user
