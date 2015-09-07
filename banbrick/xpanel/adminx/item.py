@@ -39,6 +39,8 @@ class MonitorItemAdmin(object):
             return qs
         return qs.filter(project__group__in=user.groups.all())
 
+xadmin.site.register(models.MonitorItem, MonitorItemAdmin)
+
 
 class MonitorItemHistoryAdmin(object):
     list_display = (
