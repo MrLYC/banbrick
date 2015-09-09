@@ -91,6 +91,8 @@ class ItemCollector(object):
 
 
 def main():
+    import argparse
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument("server", help="server of banbrick")
@@ -116,8 +118,7 @@ def main():
     except DataCollectError as err:
         print(err.message)
     else:
-        print "ok"
+        print("ok")
 
 if __name__ == "__main__":
-    import argparse
     main()
