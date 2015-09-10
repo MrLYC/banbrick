@@ -16,8 +16,10 @@ PIPINSTALL := $(PYENV) pip install
 
 .PHONY: dev-mk clean full-clean pylint pylint-full test requires compilemessages syncdb init demo-run
 
+Warning = echo "\033[33m$(1)\033[0m"
+
 dev-mk:
-	@echo "\033[33mmake from $(DEVMKFILE)\033[0m"
+	@$(call Warning, make from $(DEVMKFILE))
 
 clean:
 	@find . -name "__pycache__" -type d -exec rm -rf {} \; >/dev/null 2>&1 || true
@@ -49,7 +51,8 @@ syncdb:
 	$(DJMANAGE) makemigrations
 	$(DJMANAGE) syncdb
 
-init: requires syncdb compilemessages
+init: requires syncdb
+	make compilemessages || $(call Warning, compile language messages error)
 	$(DJMANAGE) loaddata $(SRCPATH)/banbrick/fixture/initial_data.json
 
 server-run:
