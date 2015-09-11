@@ -3,14 +3,12 @@ VIRTUALENV ?= $(DEVPATH)/banbrick-venv
 VENVPATH := $(VIRTUALENV)/bin
 
 # virtual env
-ifeq ($(VIRTUAL_ENV),)
-PYTHON := $(PYENV) $(VENVPATH)/python
-PEP8 := $(PYENV) $(VENVPATH)/pep8 --repeat --ignore=E202,E501
-PYLINT := $(PYENV) $(VENVPATH)/pylint --disable=I0011 --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}"
-PYTEST := $(PYENV) $(VENVPATH)/py.test -v -x
-PIPINSTALL := $(PYENV) $(VENVPATH)/pip install
+DEVPYTHON := $(PYENV) $(VENVPATH)/python
+DEVPEP8 := $(PYENV) $(VENVPATH)/pep8 --repeat --ignore=E202,E501
+DEVPYLINT := $(PYENV) $(VENVPATH)/pylint --disable=I0011 --msg-template="{path}:{line}: [{msg_id}({symbol}), {obj}] {msg}"
+DEVPYTEST := $(PYENV) $(VENVPATH)/py.test -v -x
+DEVPIPINSTALL := $(PYENV) $(VENVPATH)/pip install
 VIRTUAL_ENV := $(VIRTUALENV)
-endif
 
 .PHONY: dev-mk dev-path dev-venv-path dev-venv dev-venv-relocate dev-requires dev-requires dev-init
 
@@ -27,7 +25,7 @@ dev-venv: dev-mk
 	chmod 777 $(DEVPATH)/activate
 
 dev-requires: dev-mk dev-venv requires $(DEVPATH)/requirements.txt
-	$(PIPINSTALL) -r "$(DEVPATH)/requirements.txt"
+	$(DEVPIPINSTALL) -r "$(DEVPATH)/requirements.txt"
 
 dev-clean: dev-mk clean
 	rm -rf $(VIRTUALENV)\; || true
