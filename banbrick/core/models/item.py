@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from ycyc.base.contextutils import catch
-from ycyc.base.typeutils import constants
+from ycyc.base.typeutils import enums
 
 from core.models.base import BaseModel, BaseTag, BASE_VALIDATORS
 from core.models.project import Project
@@ -15,7 +15,6 @@ from core.utils import model as model_utils
 
 logger = logging.getLogger(__name__)
 ItemType = namedtuple("ItemType", ["name", "factory"])
-ItemStatus = namedtuple("ItemStatus", ["name"])
 
 ITEM_TYPE = (
     ItemType(_("integer"), int),
@@ -24,11 +23,7 @@ ITEM_TYPE = (
     ItemType(_("boolean"), bool),
     ItemType(_("decimal"), decimal.Decimal),
 )
-ITEM_STATUS_ARRAY = (
-    ItemStatus(_("enable")),
-    ItemStatus(_("disable")),
-    ItemStatus(_("protected")),
-)
+ITEM_STATUS = enums("enable", "disable", "protected")
 
 
 class MonitorItemTag(BaseTag):
@@ -55,7 +50,7 @@ class MonitorItem(BaseModel):
     )
     status = models.BigIntegerField(
         choices=tuple(
-            (i, t.name) for i, t in enumerate(ITEM_STATUS_ARRAY)
+            (i, _(k)) for k, i in ITEM_STATUS
         ), default=0, verbose_name=_("Status"),
     )
     value = models.CharField(

@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 
 from ycyc.base.iterutils import getattrs
 from ycyc.base.allowfail import AllowFail
-from ycyc.base.typeutils import constants
+from ycyc.base.typeutils import enums
 
 from banbrick.utils import time as time_utils
 
@@ -20,12 +20,7 @@ from core.exceptions import ModelFieldError
 
 logger = logging.getLogger(__name__)
 
-TriggerStatus = namedtuple("TriggerStatus", ["name"])
-TRIGGER_STATUS_ARRAY = (
-    TriggerStatus(_("enable")),
-    TriggerStatus(_("disable")),
-    TriggerStatus(_("protected")),
-)
+TRIGGER_STATUS = enums("enable", "disable", "protected")
 
 
 class Trigger(base.BaseModel):
@@ -46,7 +41,7 @@ class Trigger(base.BaseModel):
     )
     status = models.BigIntegerField(
         choices=tuple(
-            (i, t.name) for i, t in enumerate(TRIGGER_STATUS_ARRAY)
+            (i, _(k)) for k, i in TRIGGER_STATUS
         ), default=0, verbose_name=_("Status"),
     )
     item = models.ForeignKey(

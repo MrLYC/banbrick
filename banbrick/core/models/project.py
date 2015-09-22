@@ -4,16 +4,11 @@ from django.db import models
 from django.contrib.auth.models import Group
 from django.utils.translation import ugettext_lazy as _
 
-from ycyc.base.typeutils import constants
+from ycyc.base.typeutils import enums
 
 from core.models.base import BaseModel, BaseTag, BASE_VALIDATORS
 
-ProjectStatus = namedtuple("ProjectStatus", ["name"])
-PROJECT_STATUS_ARRAY = (
-    ProjectStatus(_("enable")),
-    ProjectStatus(_("disable")),
-    ProjectStatus(_("protected")),
-)
+PROJECT_STATUS = enums("enable", "disable", "protected")
 
 
 class ProjectTag(BaseTag):
@@ -39,7 +34,7 @@ class Project(BaseModel):
     )
     status = models.BigIntegerField(
         choices=tuple(
-            (i, t.name) for i, t in enumerate(PROJECT_STATUS_ARRAY)
+            (i, _(k)) for k, i in PROJECT_STATUS
         ), default=0, verbose_name=_("Status"),
     )
     tag_set = models.ManyToManyField(
