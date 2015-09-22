@@ -13,7 +13,7 @@ class MonitorItemAdmin(object):
     )
     list_filter = (
         'status', 'created_on', 'updated_on',
-        'type', 'project', 'tag_set', 'project',
+        'type', 'project', 'tag_set',
     )
     list_display_links = (
         'id', 'name',
