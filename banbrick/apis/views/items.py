@@ -12,6 +12,7 @@ from jsonschema.exceptions import ValidationError
 
 from ycyc.base.allowfail import AllowFail
 from ycyc.base.contextutils import catch
+from ycyc.base.lazyutils import LazyKit
 
 from core import models
 from core.models import project as project_models
@@ -22,7 +23,7 @@ from core import exceptions
 from apis.utils import auth as auth_utils
 
 logger = logging.getLogger(__name__)
-TasksPool = pool.ThreadPool(cpu_count())
+TasksPool = LazyKit(lambda: pool.ThreadPool(cpu_count()))
 
 
 class ItemCollectorView(APIView):

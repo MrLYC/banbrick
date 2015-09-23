@@ -14,7 +14,7 @@ PIPINSTALL := $(PYENV) pip install
 
 -include $(DEVMKFILE)
 
-.PHONY: dev-mk clean full-clean pylint pylint-full test requires compilemessages syncdb init demo-run
+.PHONY: dev-mk clean full-clean pylint pylint-full test requires compilemessages syncdb init demo-run ipy
 
 Warning = echo "\033[33m$(1)\033[0m"
 
@@ -62,3 +62,6 @@ server-run:
 demo-run: full-clean init
 	$(eval port ?= 9274)
 	make server-run port=$(port)
+
+ipy:
+	$(DJMANAGE) ipy
