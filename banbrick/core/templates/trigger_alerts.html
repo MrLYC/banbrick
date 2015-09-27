@@ -1,0 +1,44 @@
+{% load i18n %}
+ 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>{% trans "BanBrick Alert" %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h1><span>{{ model.trigger.name }}</span>{% trans "has changed" %}</h1>
+        <ul>
+            <li>
+                <strong>{% trans "time" %}:</strong>
+                <span>{{ model.now | time }}</span>
+            </li>
+            <li>
+                <strong>{% trans "status" %}:</strong>
+                <span>
+                    {% if model.trigger.active %}
+                        <span>{% trans "error" %}</span>
+                    {% else %}
+                        <span>{% trans "ok" %}</span>
+                    {% endif %}
+                </span>
+            </li>
+            <li>
+                <strong>{% trans "item" %}:</strong>
+                <span>{{ model.item.name }}</span>
+            </li>
+            <li>
+                <strong>{% trans "item value" %}:</strong>
+                <span>{{ model.item.value }}</span>
+            </li>
+            <li>
+                <strong>{% trans "project" %}:</strong>
+                <span>{{ model.project.name }}</span>
+            </li>
+            <li>
+                <p>{{ model.trigger.description }}</p>
+            </li>
+        </ul>
+    </body>
+</html>
